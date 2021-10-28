@@ -1,0 +1,101 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+
+
+@{
+
+
+
+    @model IEnumerable<PesquisasAdministrativas>
+    @using ORedigir.Util;
+    <div class="form-group form-inline">
+        <form style="left: 50px;" method="get">
+            <input type="text" placeholder="pesquise o nome ou e-mail de usuário" id="query" name="query" />
+            <input type="submit" value="pesquisar" />
+        </form>
+    </div>
+
+    <div class="container" style="left: 500px;">
+        <section>
+            <div class="form-group">
+                <form method="get">
+                    <label>Professores</label>
+                    <input type="checkbox" value="Professores" onclick="filtrarTblProfessores(this)"/>
+                    <label>Alunos</label>
+                    <input type="checkbox" value="Alunos" onclick="filtrarTblProfessores(this)"/>
+                </form>
+            </div>
+        </section>
+    </div>
+
+
+    var qtdRegistros = Model.Count();
+    SEOUrl SEO = new();
+    if (qtdRegistros > 0)
+    {
+        <span id="qtdRegistros" style="text-align: right;"> Usuários encontrados @qtdRegistros</span>
+        string textoTurma = "";
+        <table id="tblPesquisa">
+            <thead>
+                <tr>
+                    <th>Identificador de Usuário</th>
+                    <th>Identificador de função</th>
+                    <th>Função</th>
+                    <th>Nome Completo</th>
+                    <th>E-mail</th>
+                    <th>Turma</th>
+                    <th>Data de Nascimento</th>
+                    <th>Data de Cadastro</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var usuario in Model)
+                {
+
+                <tr>
+                    <td>@usuario.IDUsuario</td>
+                    <td>@usuario.IdPapel</td>
+                    <td>@usuario.Name</td>
+                    <td>@usuario.NomeCompleto</td>
+                    <td>@usuario.Email</td>
+                    @{textoTurma = usuario.TurmaID == null ? "Sem turma" : usuario.TurmaID.ToString(); }
+                    <td>@textoTurma</td>
+                    <td>@usuario.DataNascimento</td>
+                    <td>@usuario.DataCadastro</td>
+                    <td><button onclick="location.href='@Url.Action("Detalhes", "Administrativo", new { id = usuario.IDUsuario, nome = SEO.UrlSlug(usuario.NomeCompleto) })'" type="button" class="btn-info">Detalhes</button></td>
+                    <td><button onclick="location.href='@Url.Action("Atualizar", "Administrativo", new { id = usuario.IDUsuario, nome = SEO.UrlSlug(usuario.NomeCompleto) })'" type="button" class="btn-primary">Atualizar</button></td>
+                    <td><button onclick="location.href='@Url.Action("Detalhes", "Administrativo", new { id = usuario.IDUsuario, nome = SEO.UrlSlug(usuario.NomeCompleto), deletar = true})'" type="button" class="btn-danger">Apagar</button></td>
+
+                </tr>
+
+                }
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <h3> Não foi encontrado produtos com o termo solicitado </h3>
+    }
+
+
+@*<div class="modal fade" id="mdDetalhes" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Detalhes</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>*@
+}

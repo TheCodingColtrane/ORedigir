@@ -1,0 +1,38 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+@model ORedigir.Models.ApplicationUser;
+}
+@Html.AntiForgeryToken()
+<div class="form-group">
+    <form method="post">
+        <div class="col-md-2">
+            <label>Nome</label>
+            <input type="text" name="NomeCompleto" id="nome" />
+        </div>
+        <div class="col-md-2">
+            <label>E-mail</label>
+            <input type="email" name="email" id="email" />
+        </div>
+        <div class="col-md-2">
+            <label>Senha</label>
+            <input type="password" name="senha" id="senha" />
+        </div>
+        <div class="col-md-2">
+            <label>Data de Nascimento</label> <br />
+            <input type="date" name="DataNascimento" id="nascimento" />
+        </div>
+        <div class="col-md-2">
+            <label>Papel</label> <br />
+            <select id="tipo">
+                <option value="0" selected>Administrador</option>
+                <option value="1">Professor</option>
+                <option value="2">Aluno</option>
+            </select>
+        </div>
+
+        <input type="button" value="Entrar" onclick="novoUsuario()" />
+    </form>
+</div>

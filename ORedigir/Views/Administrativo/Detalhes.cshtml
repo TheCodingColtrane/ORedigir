@@ -1,0 +1,115 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+@using ORedigir.Util;
+@model IEnumerable<PesquisasAdministrativas>
+<div class="container-fluid">
+
+
+    @foreach (var usuario in Model)
+    {
+        SEOUrl SEO = new();
+        <input value=@usuario.IDUsuario id="idUsuario" type="hidden">
+        <div class="row">
+            <div class="col-md-1">
+                <button type="button" onclick="deletarUsuario()" class="btn-danger">Apagar Usuário</button>
+            </div>
+            <div class="col-md-1">
+                <input type="submit" value="Atualizar Usuário" onclick="location.href='@Url.Action("Atualizar", "Administrativo", new { id = usuario.IDUsuario, nome = SEO.UrlSlug(usuario.NomeCompleto) })'" class="btn-outline-primary">
+            </div>
+        </div>
+        string texto = "";
+        if (usuario.Name == "Admin")
+        {
+            texto = "/static/icons/admin.png";
+        }
+        else if (usuario.Name == "Professor")
+        {
+            texto = "/static/icons/teacher.png";
+
+        }
+        else
+        {
+            texto = "/static/icons/student.png";
+
+        }
+        <h4>Veja os dados de @usuario.NomeCompleto</h4>
+        <div class="col-md-6">
+            <div class="col-md-6">
+                <img src=@texto style="height: 100px;" />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <label>Identificador de Usuário</label>
+            </div>
+            <div class="col-md-6">
+                <label id="idUsuario">@usuario.IDUsuario</label>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <label>Identificador de Tipo de Usuário</label>
+            </div>
+            <div class="col-md-6">
+                <label>@usuario.IdPapel</label>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <label>Tipo de Usuário</label>
+            </div>
+            <div class="col-md-6">
+                <label>@usuario.Name</label>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <label>Nome Completo</label>
+            </div>
+            <div class="col-md-6">
+                <label>@usuario.NomeCompleto</label>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <label>E-mail</label>
+            </div>
+            <div class="col-md-6">
+                <label>@usuario.Email</label>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <label>Data de Nascimento</label>
+            </div>
+            <div class="col-md-6">
+                <label>@usuario.DataNascimento</label>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <label>Data de Nascimento</label>
+            </div>
+            <div class="col-md-6">
+                <label>@usuario.DataCadastro</label>
+            </div>
+        </div>
+    }
+</div>
+
+
+@{
+
+    if (Context.Request.QueryString.Value is not "")
+    {
+        <script type="module">
+            document.addEventListener("DOMContentLoaded", () => {
+                 deletarUsuario();
+            });
+        </script>
+    }
+
+}
